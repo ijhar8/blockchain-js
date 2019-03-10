@@ -8,7 +8,7 @@ Blockchain.prototype.createNewBlock=function(nonce,previousBlockHash,hash)
 const newBlock={
               index:this.chain.length+1,
               timestamp:Date.now(),
-              transactions:this.newTransactions,
+              transactions:this.pendingTransactions,
               nonce:nonce,
               hash:hash,
               previousBlockHash:previousBlockHash
@@ -32,12 +32,12 @@ Blockchain.prototype.createNewTransaction=function(amount,sender,recipient)
     const newTransaction={
        amount:amount,
        sender:sender,
-       recipient,recipient,
+       recipient:recipient,
     }
 
     this.pendingTransactions.push(newTransaction)
 
-    return getLastBlock()['index']+1;
+    return this.getLastBlock()['index']+1;
 }
 
-module.exports=Blockchain
+module.exports=Blockchain;
