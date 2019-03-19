@@ -2,14 +2,24 @@ const Blockchian= require ('./blockchain');
 
 let bc=new Blockchian();
 
-bc.createNewBlock('a','rxx','lxx');
-bc.createNewTransaction('100','ij','am');
-bc.createNewBlock('b','rxxn','lxxn');
+const currentBlock=[
+    {
+        amount:10,
+        sender:'kdfhasdkjfba',
+        recipient:'jdsabdjb',
+    },
+    {
+        amount:20,
+        sender:'kdfhasdkjfbwqedwq',
+        recipient:'jdsabdrewrejb',
+    },
+    {
+        amount:30,
+        sender:'kdfhasrfdsfdkjfba',
+        recipient:'jdsabdjfdsfdsb',
+    }
+]
 
-let l=bc.createNewTransaction('100','ijg','am');
-bc.createNewTransaction('1000','ijk','am');
-bc.createNewTransaction('10000','ijh','am');
-bc.createNewBlock('c','rxxn','lxxn');
-
-console.log(l)
-console.log(bc.chain[2])
+const previousBlockHash="jfbdsakjfb";
+const nonce=100;
+console.log(bc.hashBlock(previousBlockHash,currentBlock,nonce))
