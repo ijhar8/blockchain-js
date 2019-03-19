@@ -4,6 +4,9 @@ function Blockchain()
 {
     this.chain=[];
     this.pendingTransactions=[];
+    
+    this.createNewBlock(8888,'0','0');
+
 }
 Blockchain.prototype.createNewBlock=function(nonce,previousBlockHash,hash)
 {

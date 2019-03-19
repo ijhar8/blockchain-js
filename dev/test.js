@@ -23,4 +23,6 @@ const currentBlock=[
 const previousBlockHash="jfbdsakjfbl";
 const nonce= bc.proofOfWork(previousBlockHash,currentBlock) 
 
-console.log(bc.hashBlock(previousBlockHash,currentBlock,nonce))
+//console.log(bc.hashBlock(previousBlockHash,currentBlock,nonce))
+
+console.log(bc)
