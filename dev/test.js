@@ -20,6 +20,7 @@ const currentBlock=[
     }
 ]
 
-const previousBlockHash="jfbdsakjfb";
-const nonce=100;
+const previousBlockHash="jfbdsakjfbl";
+const nonce= bc.proofOfWork(previousBlockHash,currentBlock) 
+
 console.log(bc.hashBlock(previousBlockHash,currentBlock,nonce))
