@@ -1,1 +1,1 @@
-# blockchain-js
+making app based on blockchain 
