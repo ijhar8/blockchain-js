@@ -3,7 +3,7 @@ var app = express()
 var bodyParser = require('body-parser')
 var Blockchain = require('./blockchain')
 var uuid=require('uuid/v1')
-
+var port=process.argv[2];
 nodeAddress=uuid().split('-').join('')//unique id
 bitcoin=new Blockchain();
 
@@ -50,8 +50,8 @@ res.json({
 
 })
 
-app.listen(8888,function(){
+app.listen(port,function(){
     
-    console.log('listening on 8888');
+    console.log(`listening on  ${port} `);
 
 })
