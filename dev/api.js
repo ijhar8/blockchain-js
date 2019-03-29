@@ -2,7 +2,9 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 var Blockchain = require('./blockchain')
-var uuic=require('uuid')
+var uuid=require('uuid/v1')
+
+nodeAddress=uuid().split('-').join('')//unique id
 bitcoin=new Blockchain();
 
 app.use(bodyParser.json())
@@ -24,7 +26,27 @@ app.post('/transaction', function (req, res) {
 
 app.get('/mine', function (req, res) {
 
-const nonce=bitcoin.proofOfWork();
+const lastBlock=bitcoin.getLastBlock();
+const previousBloackHash=lastBlock.has;
+const currentBlockData={
+
+    transactions: bitcoin.pendingTransactions,
+    index:lastBlock.index
+}
+const nonce=bitcoin.proofOfWork(previousBloackHash,currentBlockData);
+const blockHash=bitcoin.hashBlock(previousBloackHash,currentBlockData,nonce);
+
+bitcoin.createNewTransaction('12.0',"00",nodeAddress);//mining reward
+
+const newBlock=bitcoin.createNewBlock(nonce,previousBloackHash,blockHash)
+
+res.json({
+    note:"New Block Mined",
+    block:newBlock
+})
+
+
+
 
 })
 
