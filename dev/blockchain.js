@@ -29,6 +29,7 @@ this.networkNodes=[]
 this.pendingTransactions=[];
 this.chain.push(newBlock);
 
+
 return newBlock;
 
 }

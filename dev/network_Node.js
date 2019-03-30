@@ -54,7 +54,7 @@ app.get('/mine', function (req, res) {
 }) //end mine
 
 //register a new node and broadcast it entire network
-app,post('/register-and-broadcast-node',function(req,res){
+app.post('/register-and-broadcast-node',function(req,res){
 
     const newNodeUrl=req.body.newNodeUrl
 
@@ -64,41 +64,60 @@ app,post('/register-and-broadcast-node',function(req,res){
 
     const regNodesPromises=[]
     let  requestOptions=''
-    bitcoin.networkNodes.foreach(networkNodeUrl=>{
+    bitcoin.networkNodes.forEach(networkNodeUrl =>{
      
-        requestOptions={
-            uri:networkNodeUrl+'/register-node',
+        requestOptions = {
+
+            uri: networkNodeUrl +'/register-node',
             method:'POST',
             body:{ newNodeUrl : newNodeUrl },
             json:true
         }
 
-        regNodesPromises.push(rp(regNodesPromises));
+        regNodesPromises.push(rp(requestOptions));
 
     });
 
     Promise.all(regNodesPromises)
     .then( data =>{
           const bulkRegisterOptions={
-            uri:networkNodeUrl+'/register-bulk-nodes',
+
+            uri:newNodeUrl +'/register-bulk-nodes',
             method:'POST',
-            body:{ allNodes : [...bitcoin.networkNodes,bitcoin.currentNodeUrl] },
+            body:{ allNetworkNodes : [...bitcoin.networkNodes,bitcoin.currentNodeUrl] },
             json:true   
           }
         return rp(bulkRegisterOptions);
     })
     .then(data =>{
-        res.join(`node added success fully`);
+        res.json({note:`node added success fully`});
     });
 });
  
-app,post('/register-node',function(req,res){
 
+app.post('/register-node',function(req,res){
     
-})
+    const newNodeUrl=req.body.newNodeUrl;
 
-app,post('/register-bulk-nodes',function(req,res){
+    if(bitcoin.networkNodes.includes(newNodeUrl)===false && bitcoin.currentNodeUrl!==newNodeUrl)
+    bitcoin.networkNodes.push(newNodeUrl);
 
+    res.json({note:`New node registerd successfully`});
+});
+
+app.post('/register-bulk-nodes',function(req,res){
+
+    const allNetworkNodes=req.body.allNetworkNodes;
+
+    allNetworkNodes.forEach(networkNodeUrl =>{
+
+        if(bitcoin.networkNodes.includes(networkNodeUrl)===false && bitcoin.currentNodeUrl!==networkNodeUrl)
+        bitcoin.networkNodes.push(networkNodeUrl);
+    
+
+    });
+
+    res.json({note:`New node registerd successfully`});
     
 })
 
