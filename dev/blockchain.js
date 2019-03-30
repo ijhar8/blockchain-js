@@ -1,4 +1,6 @@
 const sha256 =require('sha256')
+const currentNodeUrl = process.argv[3]            
+
 
 function Blockchain()
 {
@@ -19,6 +21,10 @@ const newBlock={
               previousBlockHash:previousBlockHash
 
              };
+this.currentNodeUrl =  currentNodeUrl;
+this.networkNodes=[]
+
+
 
 this.pendingTransactions=[];
 this.chain.push(newBlock);
