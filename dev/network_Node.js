@@ -94,35 +94,40 @@ app.get('/mine', function (req, res) {
             json:true
         }
 
-        regNodesPromises.push(rp(requestOptions));
+        regNodesPromises.push(rp(requestOptions)); 
 
     });
 
     Promise.all(regNodesPromises)
-    .then(data=>{
+    .then( data =>{
 
+         console.log('allsend')
          const  requestOption = {
 
-            uri: bitcoin.currentNodeUrl +'/transaction-broadcast',
+            uri: bitcoin.currentNodeUrl +'/transaction/broadcast',
             method:'POST',
             body:{
                 amount:12.00,
-                sender:'system',
-                recipient:nodeAddress,
+                sender:"00",
+                recipient:nodeAddress
             },
             json:true
-        }
+          };
 
-      return  rp(requestOption);
-
-    })
+       return rp(requestOption);
+     })
     .then(data =>{
 
         res.json({
             note:"New Block Mined & Broadcast",
             block:newBlock
         })
-    });
+    })
+    .catch((error) => {
+    
+        console.log('Promise error',error);
+    
+      });
 
     
 
@@ -165,7 +170,7 @@ app.post('/register-and-broadcast-node',function(req,res){
     const newNodeUrl=req.body.newNodeUrl
 
 
-    if(bitcoin.networkNodes.includes(newNodeUrl)===false)
+    if(!bitcoin.networkNodes.includes(newNodeUrl) && bitcoin.currentNodeUrl!==newNodeUrl)
        bitcoin.networkNodes.push(newNodeUrl)
 
     const regNodesPromises=[]
@@ -198,6 +203,7 @@ app.post('/register-and-broadcast-node',function(req,res){
     .then(data =>{
         res.json({note:`node added success fully`});
     });
+
 });
  
 
